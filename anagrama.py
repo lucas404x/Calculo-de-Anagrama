@@ -16,13 +16,10 @@ def gerarAnagrama(qnt_numeros, numero):
         verificar, permutacao, numeroLista = [], '', list(str(numero))
         
         for k in range(qnt_numeros):
-
-                number = r.randint(0, len(numeroLista) - 1)
-
+                
                 while True:
 
                         number = r.randint(0, len(numeroLista) - 1)
-
                         if not number in verificar or len(verificar) == qnt_numeros: break
 
                 verificar.append(number)
@@ -40,25 +37,22 @@ def anagrama(numero, df = ''):
         df == (vazio): todos os anagramas
         """
 
-        numero = str(numero)
-        
-        qnt_numeros, permutacoes = len(numero), []
+        if type(numero) is int and numero >= 0:
 
-        for i in range(fatorial(qnt_numeros)):
+                numero = str(numero)
+                
+                qnt_numeros, permutacoes = len(numero), set()
 
-                permutacao = gerarAnagrama(qnt_numeros, numero)
-
-                while permutacoes.count(permutacao) > 0:
+                for i in range(fatorial(qnt_numeros)):
 
                         permutacao = gerarAnagrama(qnt_numeros, numero)
 
-                        permutacao = str(permutacao)
+                        permutacao = gerarAnagrama(qnt_numeros, numero)
+                           
+                        permutacoes.add(permutacao)
+                        
+                if df is 'max': return int(max(permutacoes))
+                if df is 'min': return int(min(permutacoes))
+                if df is '': return permutacoes
 
-                        if not permutacao in permutacoes: break
-                   
-                permutacoes.append(permutacao)
-                
-        if df is 'max': return int(max(permutacoes))
-        if df is 'min': return int(min(permutacoes))
-
-        return permutacoes
+        return None
