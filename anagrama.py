@@ -46,8 +46,6 @@ def anagrama(numero, df = ''):
                 for i in range(fatorial(qnt_numeros)):
 
                         permutacao = gerarAnagrama(qnt_numeros, numero)
-
-                        permutacao = gerarAnagrama(qnt_numeros, numero)
                            
                         permutacoes.add(permutacao)
                         
