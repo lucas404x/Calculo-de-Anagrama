@@ -1,3 +1,24 @@
+from random import sample
+
+def repeticoes(numero):
+
+        repeticoes = 1
+
+        valor = []
+
+        numero = list(str(numero))
+
+        for k in numero:
+
+                if numero.count(k) > 1 and k not in valor:
+
+                        repeticoes += fatorial(int(k))
+
+                valor.append(k)
+
+        print(repeticoes)
+        return repeticoes
+
 def fatorial(numero):
 
         calc = 1
@@ -9,24 +30,6 @@ def fatorial(numero):
 
         return calc
 
-def gerarAnagrama(qnt_numeros, numero):
-
-        import random as r
-        
-        verificar, permutacao, numeroLista = [], '', list(str(numero))
-        
-        for k in range(qnt_numeros):
-                
-                while True:
-
-                        number = r.randint(0, len(numeroLista) - 1)
-                        if not number in verificar or len(verificar) == qnt_numeros: break
-
-                verificar.append(number)
-                permutacao += numeroLista[number]
-
-        return permutacao
-
 def anagrama(numero, df = ''):
 
         """
@@ -36,21 +39,24 @@ def anagrama(numero, df = ''):
         df == 'max': maior anagrama
         df == (vazio): todos os anagramas
         """
+        
+        qnt_numeros, permutacoes, listaNumero = len(str(numero)), [], list(str(numero))
 
-        if type(numero) is int and numero >= 0:
+        totalPermutacoes = fatorial(qnt_numeros) / fatorial(repeticoes(numero))
+        print(totalPermutacoes)
+        
+        for i in range(int(totalPermutacoes)):
 
-                numero = str(numero)
+                permutacao = ''
                 
-                qnt_numeros, permutacoes = len(numero), set()
+                gerarAnagrama = sample(str(numero), qnt_numeros)
 
-                for i in range(fatorial(qnt_numeros)):
+                for k in gerarAnagrama:
 
-                        permutacao = gerarAnagrama(qnt_numeros, numero)
-                           
-                        permutacoes.add(permutacao)
-                        
-                if df is 'max': return int(max(permutacoes))
-                if df is 'min': return int(min(permutacoes))
-                if df is '': return permutacoes
+                        permutacao += k
 
-        return None
+                permutacoes.append(permutacao)
+                
+        if df is 'max': return int(max(permutacoes))
+        if df is 'min': return int(min(permutacoes))
+        if df is '': return permutacoes
