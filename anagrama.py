@@ -12,7 +12,9 @@ def repeticoes(numero):
 
                 if numero.count(k) > 1 and k not in valor:
 
-                        repeticoes *= fatorial(int(k))
+                        number = numero.count(k)
+
+                        repeticoes *= fatorial(number)
 
                 valor.append(k)
 
@@ -43,9 +45,10 @@ def anagrama(numero, df = ''):
         qnt_numeros, permutacoes, listaNumero = len(str(numero)), [], list(str(numero))
 
         totalPermutacoes = fatorial(qnt_numeros) / fatorial(repeticoes(numero))
-        print(totalPermutacoes)
         
-        while len(permutacoes) != totalPermutacoes:
+        if totalPermutacoes < 1: totalPermutacoes = 1
+        
+        while len(permutacoes) != round(totalPermutacoes):
 
                 permutacao = ''
                 
@@ -56,6 +59,7 @@ def anagrama(numero, df = ''):
                         permutacao += k
 
                 if permutacao not in permutacoes:
+                        
                         permutacoes.append(permutacao)
                 
         if df is 'max': return int(max(permutacoes))
