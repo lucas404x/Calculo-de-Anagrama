@@ -17,8 +17,7 @@ def repeticoes(numero):
                         repeticoes *= fatorial(number)
 
                 valor.append(k)
-
-        print(repeticoes)
+                
         return repeticoes
 
 def fatorial(numero):
