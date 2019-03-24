@@ -4,19 +4,19 @@ def repeticoes(numero):
 
         repeticoes = 1
 
-        valor = []
+        valores = []
 
         numero = list(str(numero))
 
         for k in numero:
 
-                if numero.count(k) > 1 and k not in valor:
+                if numero.count(k) > 1 and k not in valores:
 
                         number = numero.count(k)
 
                         repeticoes *= fatorial(number)
-
-                valor.append(k)
+                        
+                valores.append(k)
                 
         return repeticoes
 
@@ -43,11 +43,9 @@ def anagrama(numero, df = ''):
         
         qnt_numeros, permutacoes, listaNumero = len(str(numero)), [], list(str(numero))
 
-        totalPermutacoes = fatorial(qnt_numeros) / fatorial(repeticoes(numero))
+        totalPermutacoes = fatorial(qnt_numeros) / repeticoes(numero)
         
-        if totalPermutacoes < 1: totalPermutacoes = 1
-        
-        while len(permutacoes) != round(totalPermutacoes):
+        while len(permutacoes) != totalPermutacoes:
 
                 permutacao = ''
                 
