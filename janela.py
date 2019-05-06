@@ -47,6 +47,7 @@ class Janela:
                                 subframe.pack()
 
                         lb = Label(subframe, text = calc[valor] + " |")
+                        text += calc[valor] + " |"
                         
                         if calc[valor] == self.comparacao.get():
                                 lb['foreground'] = 'green'
