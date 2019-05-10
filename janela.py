@@ -5,61 +5,65 @@ from anagrama import anagrama
 
 class Janela:
 
-        def __init__(self, janela):
+        def __init__(self, janela = None):
 
-                self.windowResult = None
-                self.janelaPrincipal = janela
-                self.janelaPrincipal.title("Calcula Permutações")
-                self.janelaPrincipal.geometry("370x150")
-                self.janelaPrincipal.resizable(False, False)
+                janelaPrincipal = janela
+                janelaPrincipal.title("Calculadora de Permutações")
+                janelaPrincipal.geometry("370x150")
+                janelaPrincipal.resizable(False, False)
+
+                global inserir_dado, comparacao
                 
-                self.info_inserir = Label(self.janelaPrincipal, text = "Insira um número ou nome", font = ("Arial", 10))
-                self.inserir_dado = Entry(self.janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
-                self.info_comparar = Label(self.janelaPrincipal, text = "Insira algo para verificar se tem nas permutações (opcional)", font = ("Arial", 10))
-                self.comparacao = Entry(self.janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
-                self.confirmar = Button(self.janelaPrincipal, text = "Calcular", foreground = 'black', command = self.calcularPermutacao)
+                info_inserir = Label(janelaPrincipal, text = "Insira um número ou nome", font = ("Arial", 10))
+                inserir_dado = Entry(janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
+                info_comparar = Label(janelaPrincipal, text = "Achar o que você digitou nos anagramas (opcional)", font = ("Arial", 10))
+                comparacao = Entry(janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
+                confirmar = Button(janelaPrincipal, text = "Calcular", foreground = 'black',
+                                        command = PageCalculate)
 
-                self.info_inserir.pack()
-                self.inserir_dado.pack()
-                self.info_comparar.pack()
-                self.comparacao.pack()
-                self.confirmar.pack()
+                info_inserir.pack()
+                inserir_dado.pack()
+                info_comparar.pack()
+                comparacao.pack()
+                confirmar.pack()
 
-        def calcularPermutacao(self):
-                
-                calc = anagrama(self.inserir_dado.get())
-                self.exibirPermutacao(calc)
+class PageCalculate:
 
-        def exibirPermutacao(self, calc):
-
+        def __init__(self):
                 self.windowResult = Tk()
+                self.frame_result = Frame(self.windowResult)
+                self.frame_result.pack()
                 self.windowResult.title("Resultado")
-                frame_result = Frame(self.windowResult)
-                frame_result.pack()
-                
+                self.exibirPermutacao(self.calcularPermutacao(inserir_dado.get()))
+
+        def calcularPermutacao(self, numero):
+                calc = anagrama(numero)
+                return calc
+
+        def exibirPermutacao(self, callback):
                 text = ""
-                const = len(list(self.inserir_dado.get()))
+                const = len(list(inserir_dado.get()))
                 
-                for valor in range(len(calc)):
+                for valor in range(len(callback)):
 
                         if valor % const == 0:
-                                subframe = Frame(frame_result)
+                                subframe = Frame(self.frame_result)
                                 subframe.pack()
 
-                        lb = Label(subframe, text = calc[valor] + " |")
-                        text += calc[valor] + " |"
+                        lb = Label(subframe, text = callback[valor] + " |")
+                        text += callback[valor] + " |"
                         
-                        if calc[valor] == self.comparacao.get():
+                        if callback[valor] == comparacao.get():
                                 lb['foreground'] = 'green'
                                 lb['bg'] = 'white'
                                 
                         lb.pack(side = 'left')
 
-                self.inserir_dado.delete(0, END)
-                self.comparacao.delete(0, END)
+                inserir_dado.delete(0, END)
+                comparacao.delete(0, END)
                 
                 save = Button(self.windowResult, text = "Salvar Anagramas", command = partial(self.save, text))
-                sair = Button(self.windowResult, text = "Fechar", command = lambda:self.windowResult.destroy())
+                sair = Button(self.windowResult, text = "Fechar", command = lambda: self.windowResult.destroy())
                 
                 save.pack(side = 'right')
                 sair.pack(side = 'left')
