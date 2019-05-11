@@ -1,6 +1,7 @@
 from tkinter import*
 from tkinter import filedialog
 from functools import partial
+from tkinter import messagebox
 from anagrama import anagrama
 
 class Janela:
@@ -18,31 +19,45 @@ class Janela:
                 inserir_dado = Entry(janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
                 info_comparar = Label(janelaPrincipal, text = "Achar o que você digitou nos anagramas (opcional)", font = ("Arial", 10))
                 comparacao = Entry(janelaPrincipal, justify = 'center', font = ('Arial', 12), bd = 3.5)
-                confirmar = Button(janelaPrincipal, text = "Calcular", foreground = 'black',
-                                        command = PageCalculate)
+                confirmar = Button(janelaPrincipal, text = "Calcular", foreground = 'black', width = 12, command = self.verificar)
+                sair = Button(janelaPrincipal, text = "Sair", foreground = 'black', width = 12, command = lambda: janelaPrincipal.destroy()) 
 
                 info_inserir.pack()
                 inserir_dado.pack()
                 info_comparar.pack()
                 comparacao.pack()
-                confirmar.pack()
+                confirmar.pack(side = 'left', padx = 10)
+                sair.pack(side = 'right', padx = 10)
+
+        def verificar(self):
+                valor = inserir_dado.get()
+                dado = ""
+                
+                for numero in valor:
+                        if numero == " ":
+                                continue
+                        dado += numero
+
+                if len(dado) != 0:
+                        PageCalculate(dado)
+
+                else:
+                        messagebox.showwarning("VALOR INVALÍDO", "Entrada vazia.")
+                        inserir_dado.delete(0, END)
+                        comparacao.delete(0, END)
 
 class PageCalculate:
 
-        def __init__(self):
+        def __init__(self, dado):
                 self.windowResult = Tk()
                 self.frame_result = Frame(self.windowResult)
                 self.frame_result.pack()
                 self.windowResult.title("Resultado")
-                self.exibirPermutacao(self.calcularPermutacao(inserir_dado.get()))
+                self.exibirPermutacao(dado, anagrama(dado))
 
-        def calcularPermutacao(self, numero):
-                calc = anagrama(numero)
-                return calc
-
-        def exibirPermutacao(self, callback):
+        def exibirPermutacao(self, dado, callback):
                 text = ""
-                const = len(list(inserir_dado.get()))
+                const = len(list(dado))
                 
                 for valor in range(len(callback)):
 
